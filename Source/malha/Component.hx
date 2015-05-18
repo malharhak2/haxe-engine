@@ -20,4 +20,16 @@ class Component {
 	public function getId ():String {
 		return _id;
 	}
+
+	public function preUpdate () {
+
+	}
+
+	public function update () {
+
+	}
+
+	public function postUpdate () {
+
+	}
 }

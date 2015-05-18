@@ -33,4 +33,28 @@ class ComponentsManager {
 
 		components_hash.remove(id);
 	}
+
+	public static function preUpdate () {
+		for (components_hash in _components.iterator()) {
+			for (component in components_hash.iterator()) {
+				component.preUpdate();
+			}
+		}
+	}
+
+	public static function update () {
+		for (components_hash in _components.iterator()) {
+			for (component in components_hash.iterator()) {
+				component.update();
+			}
+		}
+	}
+	
+	public static function postUpdate () {
+		for (components_hash in _components.iterator()) {
+			for (component in components_hash.iterator()) {
+				component.postUpdate();
+			}
+		}	
+	}
 }

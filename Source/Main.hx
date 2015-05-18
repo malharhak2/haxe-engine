@@ -5,6 +5,7 @@ import lime.graphics.RenderContext;
 
 import malha.GameObject;
 import game.components.Renderer;
+import malha.ComponentsManager;
 
 class Main extends Application {
 	
@@ -12,10 +13,11 @@ class Main extends Application {
 	public function new () {
 		
 		super ();
-		
+
 		var gameObject:GameObject = new GameObject();
 		gameObject.addComponent(Renderer);
 
+		ComponentsManager.update();
 		
 		trace ("Hello World");
 		
@@ -30,6 +32,9 @@ class Main extends Application {
 				
 				context.fillStyle = "#BFFF00";
 				context.fillRect (0, 0, window.width, window.height);
+				ComponentsManager.preUpdate();
+				ComponentsManager.update(context);
+				ComponentsManager.postUpdate();
 			
 			case DOM (element):
 				

@@ -722,7 +722,8 @@ var Main = function() {
 	lime_app_Application.call(this);
 	var gameObject = new malha_GameObject();
 	gameObject.addComponent(game_components_Renderer);
-	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 20, className : "Main", methodName : "new"});
+	malha_ComponentsManager.update();
+	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 22, className : "Main", methodName : "new"});
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = true;
@@ -890,6 +891,13 @@ malha_Component.prototype = {
 	,getId: function() {
 		return this._id;
 	}
+	,preUpdate: function() {
+	}
+	,update: function() {
+		haxe_Log.trace("Original components update",{ fileName : "Component.hx", lineNumber : 29, className : "malha.Component", methodName : "update"});
+	}
+	,postUpdate: function() {
+	}
 	,__class__: malha_Component
 };
 var game_components_Renderer = function(id) {
@@ -899,7 +907,11 @@ $hxClasses["game.components.Renderer"] = game_components_Renderer;
 game_components_Renderer.__name__ = true;
 game_components_Renderer.__super__ = malha_Component;
 game_components_Renderer.prototype = $extend(malha_Component.prototype,{
-	__class__: game_components_Renderer
+	update: function() {
+		malha_Component.prototype.update.call(this);
+		haxe_Log.trace("Renderer update",{ fileName : "Renderer.hx", lineNumber : 12, className : "game.components.Renderer", methodName : "update"});
+	}
+	,__class__: game_components_Renderer
 });
 var haxe_IMap = function() { };
 $hxClasses["haxe.IMap"] = haxe_IMap;
@@ -1010,6 +1022,21 @@ haxe_ds_ObjectMap.prototype = {
 		var id = key.__id__ || (key.__id__ = ++haxe_ds_ObjectMap.count);
 		this.h[id] = value;
 		this.h.__keys__[id] = key;
+	}
+	,keys: function() {
+		var a = [];
+		for( var key in this.h.__keys__ ) {
+		if(this.h.hasOwnProperty(key)) a.push(this.h.__keys__[key]);
+		}
+		return HxOverrides.iter(a);
+	}
+	,iterator: function() {
+		return { ref : this.h, it : this.keys(), hasNext : function() {
+			return this.it.hasNext();
+		}, next : function() {
+			var i = this.it.next();
+			return this.ref[i.__id__];
+		}};
 	}
 	,__class__: haxe_ds_ObjectMap
 };
@@ -8172,6 +8199,17 @@ malha_ComponentsManager.createComponent = function(componentType) {
 malha_ComponentsManager.removeComponent = function(componentType,id) {
 	var components_hash = malha_ComponentsManager._components.h[componentType.__id__];
 	components_hash.remove(id);
+};
+malha_ComponentsManager.update = function() {
+	var $it0 = malha_ComponentsManager._components.iterator();
+	while( $it0.hasNext() ) {
+		var components_hash = $it0.next();
+		var $it1 = new haxe_ds__$StringMap_StringMapIterator(components_hash,components_hash.arrayKeys());
+		while( $it1.hasNext() ) {
+			var component = $it1.next();
+			component.update();
+		}
+	}
 };
 var malha_GameObject = function() {
 	this._components = new haxe_ds_ObjectMap();
