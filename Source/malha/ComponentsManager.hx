@@ -1,7 +1,7 @@
 package malha;
 /**
 	Components Manager class
-	Statis class that holds all components of the game
+	Singleton class that holds all components of the game
 **/
 
 import malha.utils.GUID;
@@ -11,10 +11,18 @@ class ComponentsManager {
 
 	private static var _components: ObjectMap<Dynamic, Map<String, Component>>;
 
+	static function __init__ () {
+		_components = new ObjectMap<Dynamic, Map<String, Component>>();
+	}
+
 	public static function createComponent (componentType:Class<Dynamic>) {
 		var id: String = GUID.Create();
 		var component: Component = Type.createInstance(componentType, [id]);
 
+		trace('No components yet of type ', componentType);
+		if (_components.get(componentType) == null) {
+			_components.set(componentType, new Map<String, Component>());
+		}
 		var components_hash = _components.get(componentType);
 		components_hash.set(id, component);
 		return component;

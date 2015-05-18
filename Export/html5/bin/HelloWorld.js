@@ -722,7 +722,7 @@ var Main = function() {
 	lime_app_Application.call(this);
 	var gameObject = new malha_GameObject();
 	gameObject.addComponent(game_components_Renderer);
-	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 19, className : "Main", methodName : "new"});
+	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 20, className : "Main", methodName : "new"});
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = true;
@@ -998,7 +998,10 @@ haxe_ds_IntMap.__interfaces__ = [haxe_IMap];
 haxe_ds_IntMap.prototype = {
 	__class__: haxe_ds_IntMap
 };
-var haxe_ds_ObjectMap = function() { };
+var haxe_ds_ObjectMap = function() {
+	this.h = { };
+	this.h.__keys__ = { };
+};
 $hxClasses["haxe.ds.ObjectMap"] = haxe_ds_ObjectMap;
 haxe_ds_ObjectMap.__name__ = true;
 haxe_ds_ObjectMap.__interfaces__ = [haxe_IMap];
@@ -8160,6 +8163,8 @@ malha_ComponentsManager.__name__ = true;
 malha_ComponentsManager.createComponent = function(componentType) {
 	var id = malha_utils_GUID.Create();
 	var component = Type.createInstance(componentType,[id]);
+	haxe_Log.trace("No components yet of type ",{ fileName : "ComponentsManager.hx", lineNumber : 22, className : "malha.ComponentsManager", methodName : "createComponent", customParams : [componentType]});
+	if(malha_ComponentsManager._components.h[componentType.__id__] == null) malha_ComponentsManager._components.set(componentType,new haxe_ds_StringMap());
 	var components_hash = malha_ComponentsManager._components.h[componentType.__id__];
 	if(__map_reserved[id] != null) components_hash.setReserved(id,component); else components_hash.h[id] = component;
 	return component;
@@ -8169,6 +8174,7 @@ malha_ComponentsManager.removeComponent = function(componentType,id) {
 	components_hash.remove(id);
 };
 var malha_GameObject = function() {
+	this._components = new haxe_ds_ObjectMap();
 };
 $hxClasses["malha.GameObject"] = malha_GameObject;
 malha_GameObject.__name__ = true;
@@ -8264,6 +8270,7 @@ while(_g11 < _g2) {
 	var i2 = _g11++;
 	lime_graphics_utils_ImageDataUtil.__clamp[i2] = 255;
 }
+malha_ComponentsManager._components = new haxe_ds_ObjectMap();
 haxe_ds_ObjectMap.count = 0;
 haxe_io_FPHelper.i64tmp = (function($this) {
 	var $r;

@@ -12,6 +12,7 @@ class Main extends Application {
 	public function new () {
 		
 		super ();
+		
 		var gameObject:GameObject = new GameObject();
 		gameObject.addComponent(Renderer);
 

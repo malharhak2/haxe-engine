@@ -11,7 +11,7 @@ class GameObject {
 	public var transform: Transform;
 
 	public function new () {
-
+		_components = new ObjectMap<Dynamic, Array<String>>();
 	}
 
 	public function addComponent(componentType:Class<Dynamic>) {
