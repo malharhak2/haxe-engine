@@ -25,16 +25,17 @@ class Main extends Application {
 	
 	
 	public override function render (context:RenderContext):Void {
-		
+
+		ComponentsManager.preUpdate();
+		ComponentsManager.update();
+		ComponentsManager.postUpdate();
+
 		switch (context) {
 			
 			case CANVAS (context):
-				
 				context.fillStyle = "#BFFF00";
 				context.fillRect (0, 0, window.width, window.height);
-				ComponentsManager.preUpdate();
-				ComponentsManager.update(context);
-				ComponentsManager.postUpdate();
+				ComponentsManager.render(context, window, config);
 			
 			case DOM (element):
 				
@@ -46,10 +47,9 @@ class Main extends Application {
 				sprite.graphics.drawRect (0, 0, window.width, window.height);
 			
 			case OPENGL (gl):
-				
 				gl.clearColor (0.75, 1, 0, 1);
 				gl.clear (gl.COLOR_BUFFER_BIT);
-			
+				ComponentsManager.render(context, window, config);
 			case CONSOLE (context):
 				
 				context.clearColor (0.75, 1, 0, 1);

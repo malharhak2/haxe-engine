@@ -27,10 +27,6 @@ class ApplicationMain {
 		var types = [];
 		
 		
-		urls.push ("assets/lime.png");
-		types.push (AssetType.IMAGE);
-		
-		
 		
 		if (config.assetsPrefix != null) {
 			
@@ -62,10 +58,10 @@ class ApplicationMain {
 			company: "OpenFL",
 			depthBuffer: false,
 			file: "HelloWorld",
-			fps: Std.int (0),
+			fps: Std.int (30),
 			fullscreen: false,
 			hardware: true,
-			height: Std.int (0),
+			height: Std.int (600),
 			orientation: "",
 			packageName: "org.openfl.lime.samples.helloworld",
 			resizable: true,
@@ -73,7 +69,7 @@ class ApplicationMain {
 			title: "HelloWorld",
 			version: "1.0.0",
 			vsync: false,
-			width: Std.int (0),
+			width: Std.int (800),
 			
 		}
 		

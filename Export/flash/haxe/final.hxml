@@ -6,11 +6,9 @@
 -cp Source
 -D tools=2.4.1
 -D no-compilation
--D lime-opengl
--D lime-html5
--D html5
 -D web
--js Export/html5/bin/HelloWorld.js
--cp Export/html5/haxe
--D html5
--D html
+-swf-version 11.2
+-swf Export/flash/bin/HelloWorld.swf
+-swf-header 800:600:30:FFFFFF
+-cp Export/flash/haxe
+-D final

@@ -45,17 +45,11 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
-		className.set ("assets/lime.png", __ASSET__assets_lime_png);
-		type.set ("assets/lime.png", AssetType.IMAGE);
 		
 		
 		#elseif html5
 		
 		var id;
-		id = "assets/lime.png";
-		path.set (id, id);
-		
-		type.set (id, AssetType.IMAGE);
 		
 		
 		var assetsPrefix = ApplicationMain.config.assetsPrefix;
@@ -70,15 +64,11 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if openfl
 		
 		
-		
 		#end
 		
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
-		
-		className.set ("assets/lime.png", __ASSET__assets_lime_png);
-		type.set ("assets/lime.png", AssetType.IMAGE);
 		
 		
 		if (useManifest) {
@@ -680,11 +670,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if !display
 #if flash
 
-@:keep @:bind #if display private #end class __ASSET__assets_lime_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 
 
 #elseif html5
-
 
 
 
@@ -695,7 +683,6 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if (windows || mac || linux)
 
 
-@:image("Assets/lime.png") #if display private #end class __ASSET__assets_lime_png extends lime.graphics.Image {}
 
 
 

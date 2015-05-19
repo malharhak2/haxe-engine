@@ -6,6 +6,7 @@ package malha;
 
 import malha.utils.GUID;
 import haxe.ds.ObjectMap;
+import lime.graphics.RenderContext;
 
 class ComponentsManager {
 
@@ -57,4 +58,12 @@ class ComponentsManager {
 			}
 		}	
 	}
+	public static function render (context: Dynamic, window: Dynamic, config: Dynamic) {
+		for (components_hash in _components.iterator()) {
+			for (component in components_hash.iterator()) {
+				component.render(context, window, config);
+			}
+		}	
+	}
+
 }
