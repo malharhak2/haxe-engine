@@ -18,20 +18,15 @@ import hxmath.math.Vector2;
 import lime.utils.Float32Array;
 
 class Rectangle {
+
+	private static var vertexSource:String;
+	private static var fragmentSource:String;
+	private static var program:GLProgram;
+
 	public static function create (gl:Dynamic, x: Float, y: Float, width: Float, height: Float) {
-		var vertexSource = 
-			"attribute vec2 a_position;
-
-			void main() {
-			  gl_Position = vec4(a_position, 0, 1);
-			}";
-		
-		var fragmentSource = 
-			"void main() {
-			  gl_FragColor = vec4(0,1,0,1);  // green
-			}";
-
-		var program:GLProgram = GLUtils.createProgram(vertexSource, fragmentSource);
+		if (program == null) {
+			init();
+		}
 		gl.useProgram (program);
 
 		var positionLocation = gl.getAttribLocation (program, "a_position");
@@ -44,7 +39,6 @@ class Rectangle {
 
 		x = x * Game.unitSize.y;
 		y = y * Game.unitSize.y;
-		trace(x, y, width, height);
 		gl.bufferData(
 		    gl.ARRAY_BUFFER, 
 		    new Float32Array([
@@ -61,5 +55,20 @@ class Rectangle {
 
 		// draw
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
+	}
+
+	private static function init () {
+		vertexSource =
+			"attribute vec2 a_position;
+
+			void main() {
+			  gl_Position = vec4(a_position, 0, 1);
+			}";
+		fragmentSource = 
+			"void main() {
+			  gl_FragColor = vec4(0,1,0,1);  // green
+			}";
+
+		program = GLUtils.createProgram(vertexSource, fragmentSource);
 	}
 }

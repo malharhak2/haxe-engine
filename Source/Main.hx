@@ -5,6 +5,9 @@ import lime.graphics.RenderContext;
 
 import malha.GameObject;
 import game.components.Renderer;
+import game.components.Shaky;
+import hxmath.math.Vector2;
+
 import malha.ComponentsManager;
 import malha.Game;
 
@@ -15,9 +18,16 @@ class Main extends Application {
 		
 		super ();
 		
+		for (i in 0 ... 100) {
+			var gameObject:GameObject = new GameObject();
+			gameObject.transform.position = new Vector2(
+				Math.random() * 1000 - 500,
+				Math.random() * 1000 - 500
+			);
 
-		var gameObject:GameObject = new GameObject();
-		gameObject.addComponent(Renderer);
+			gameObject.addComponent(Renderer);
+			gameObject.addComponent(Shaky);
+		}
 
 		ComponentsManager.update();
 		

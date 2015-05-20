@@ -11,9 +11,11 @@ class GameObjectsManager {
 	/*
 	 * 		All gameObjects mapped by their IDs
 	 **/
-	private static var _gameObjects: Map<String, GameObject>;
+	public static var _gameObjects(default, null): Map<String, GameObject>;
 
-
+	public static function get__gameObjects() {
+		return _gameObjects;
+	}
 	/*
 	 * 		Adds a gameObject to the list of gameObjects, and returns the newly created id
 	 * 		@param gameObject   	The object to add

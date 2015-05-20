@@ -18,13 +18,6 @@ class Renderer extends Component {
 	public var height: Int = 10;
 	public var pivot: Vector2;
 
-	private var buffer:GLBuffer;
-	private var matrixUniform:GLUniformLocation;
-	private var program:GLProgram;
-	private var texture:GLTexture;
-	private var textureAttribute:Int;
-	private var vertexAttribute:Int;
-
 	public function new (id) {
 		super(id);
 		width = 10;

@@ -24,17 +24,19 @@ class Transform {
 		position = new Vector2(0, 0);
 	}
 
+	public function computeActualPosition () {
+		if (parent != null) {
+			_computedPosition = position + parent.position;
+		} else {
+			_computedPosition = new Vector2(position.x, position.y);
+		}
+	}
 	/*
 	 * Returns the object world position, taking into account the parent position
 	 * @return position 	A position vector
 	 * @todo: Keep this in cache and calculate it only once per frame
 	 **/
 	public function getActualPosition () : Vector2 {
-		if (parent != null) {
-			_computedPosition = position + parent.position;
-			return _computedPosition;
-		} else {
-			return position;
-		}
+		return _computedPosition;
 	}
 }

@@ -8,6 +8,7 @@ package malha;
 import malha.utils.GUID;
 import haxe.ds.ObjectMap;
 import lime.graphics.RenderContext;
+import malha.GameObjectsManager;
 
 class ComponentsManager {
 
@@ -30,8 +31,8 @@ class ComponentsManager {
 		var id: String = GUID.Create(); // Unique ID for the component
 		var component: Component = Type.createInstance(componentType, [id]);
 
-		trace('No components yet of type ', componentType);
 		if (_components.get(componentType) == null) {
+			trace('No components yet of type ', componentType);
 			_components.set(componentType, new Map<String, Component>());
 		}
 		var components_hash = _components.get(componentType);
@@ -98,6 +99,9 @@ class ComponentsManager {
 	 * 		Calls the same function for each component in the game
 	 **/
 	public static function preUpdate () {
+		for (gameObject in GameObjectsManager._gameObjects) {
+			 gameObject.transform.computeActualPosition();
+		}
 		for (components_hash in _components.iterator()) {
 			for (component in components_hash.iterator()) {
 				component.preUpdate();
