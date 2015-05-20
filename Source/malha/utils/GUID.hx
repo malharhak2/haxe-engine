@@ -1,5 +1,10 @@
 package malha.utils;
 
+/*
+ *    Holder class for the GUID function. Creates a unique ID (for gameObjects, components, etc)
+ *    Usage: GUID.Create()
+ *    @return guid  A unique string
+ **/
 class GUID
 {
  private static var CHARS : Array<String> = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");

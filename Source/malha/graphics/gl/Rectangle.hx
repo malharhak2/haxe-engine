@@ -1,14 +1,16 @@
 package malha.graphics.gl;
 
 /*
-	OpenGL Rectangle class
-	A static class holding a rectangle function for renderers
-	Usage: Rendering.create (gl, x, y, width, height)
-		- gl: The OpenGL rendering context
-		- x, y, width, height - obvious
-
-	(temporary code for testing renderers)
-*/
+ *	OpenGL Rectangle class
+ *	A static class holding a rectangle function for renderers
+ *	Usage: Rendering.create (gl, x, y, width, height)
+ *	@param gl 		The OpenGL rendering context
+ * 	@param x		The X position
+ *	@param y		The Y position
+ * 	@param width	The width of the rectangle
+ * 	@param height	The height of the rectangle
+ *	@todo Temporary code for testing renderers
+ **/
 import lime.graphics.opengl.*;
 import lime.graphics.RenderContext;
 import lime.utils.GLUtils;
@@ -42,7 +44,7 @@ class Rectangle {
 
 		x = x * Game.unitSize.y;
 		y = y * Game.unitSize.y;
-		trace("Rectangle: ", x, y, width, height);
+		trace(x, y, width, height);
 		gl.bufferData(
 		    gl.ARRAY_BUFFER, 
 		    new Float32Array([

@@ -14,10 +14,8 @@ class Main extends Application {
 	public function new () {
 		
 		super ();
-
-		Game.window = window;
-		Game.config = config;
 		
+
 		var gameObject:GameObject = new GameObject();
 		gameObject.addComponent(Renderer);
 
@@ -29,6 +27,11 @@ class Main extends Application {
 	
 	
 	public override function render (context:RenderContext):Void {
+		if (!Game.initialized) {
+			Game.init(config);
+			trace(config.width, config.height);
+		}
+		Game.refreshUnitSize(window.width, window.height);
 
 		ComponentsManager.preUpdate();
 		ComponentsManager.update();

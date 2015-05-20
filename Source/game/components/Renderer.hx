@@ -35,7 +35,6 @@ class Renderer extends Component {
 	public override function render (context:Dynamic, window: Dynamic, config: Dynamic) {
 		super.render(context, window, config);
 		var position:Vector2 = gameObject.transform.getActualPosition();
-		trace(pivot, position);
 		position = position - new Vector2(pivot.x * width, pivot.y * height);
 
 		switch (context) {
