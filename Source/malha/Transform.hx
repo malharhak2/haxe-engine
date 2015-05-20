@@ -13,7 +13,7 @@ class Transform {
 	/*
 	 * The position of the gameObject after taking into account the parent's transform
 	 **/
-	private var _computedPosition: Vector2; // Onscreen position that takes into account parent position
+	public var computedPosition(get, null): Vector2; // Onscreen position that takes into account parent position
 
 	/*
 	 * GameObjects can have a parent object - their position/rotation will be relative to the parent's ones
@@ -26,9 +26,9 @@ class Transform {
 
 	public function computeActualPosition () {
 		if (parent != null) {
-			_computedPosition = position + parent.position;
+			computedPosition = position + parent.position;
 		} else {
-			_computedPosition = new Vector2(position.x, position.y);
+			computedPosition = new Vector2(position.x, position.y);
 		}
 	}
 	/*
@@ -36,7 +36,7 @@ class Transform {
 	 * @return position 	A position vector
 	 * @todo: Keep this in cache and calculate it only once per frame
 	 **/
-	public function getActualPosition () : Vector2 {
-		return _computedPosition;
+	public function get_computedPosition (): Vector2 {
+		return new Vector2(computedPosition.x, computedPosition.y);
 	}
 }

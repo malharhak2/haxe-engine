@@ -17,44 +17,51 @@ import lime.utils.GLUtils;
 import hxmath.math.Vector2;
 import lime.utils.Float32Array;
 
-class Rectangle {
+class Rectangle extends Mesh {
+
+	public var x:Float 		= 0; 
+	public var y:Float 		= 0; 
+	public var width:Float 	= 0; 
+	public var height:Float = 0; 
 
 	private static var vertexSource:String;
 	private static var fragmentSource:String;
-	private static var program:GLProgram;
+	private static var rectangle_shader:GLProgram;
 
-	public static function create (gl:Dynamic, x: Float, y: Float, width: Float, height: Float) {
-		if (program == null) {
+	public override function new (gl:Dynamic) {
+		if (rectangle_shader == null) {
 			init();
 		}
-		gl.useProgram (program);
-
-		var positionLocation = gl.getAttribLocation (program, "a_position");
-
 		var buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+		var bufferContent:Float32Array = createBuffer();
+		super(gl, rectangle_shader, buffer, bufferContent, gl.STATIC_DRAW, 6);
+	}
+
+	public function render (gl:Dynamic, _x: Float, _y: Float, _width: Float, _height: Float) {
+
+		x = _x;
+		y = _y;
+		width = _width;
+		height = _height;
 
 		width = width * Game.unitSize.x;
 		height = height * Game.unitSize.y;
 
 		x = x * Game.unitSize.y;
 		y = y * Game.unitSize.y;
-		gl.bufferData(
-		    gl.ARRAY_BUFFER, 
-		    new Float32Array([
+
+		bufferContent = createBuffer();
+
+		draw(gl);
+	}
+	private function createBuffer (): Float32Array {
+		return new Float32Array([
 		        x, y, 
 		        x + width, y, 
 		        x,  y + height, 
 		        x,  y + height, 
 		        x + width, y, 
-		        x + width, y + height]), 
-		    gl.STATIC_DRAW);
-
-		gl.enableVertexAttribArray(positionLocation);
-		gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-		// draw
-		gl.drawArrays(gl.TRIANGLES, 0, 6);
+		        x + width, y + height]);
 	}
 
 	private static function init () {
@@ -69,6 +76,6 @@ class Rectangle {
 			  gl_FragColor = vec4(0,1,0,1);  // green
 			}";
 
-		program = GLUtils.createProgram(vertexSource, fragmentSource);
+		rectangle_shader = GLUtils.createProgram(vertexSource, fragmentSource);
 	}
 }
