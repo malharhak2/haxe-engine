@@ -725,10 +725,12 @@ lime_app_Application.prototype = $extend(lime_app_Module.prototype,{
 });
 var Main = function() {
 	lime_app_Application.call(this);
+	malha_Game.window = this.windows[0];
+	malha_Game.config = this.config;
 	var gameObject = new malha_GameObject();
 	gameObject.addComponent(game_components_Renderer);
 	malha_ComponentsManager.update();
-	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 22, className : "Main", methodName : "new"});
+	haxe_Log.trace("Hello World",{ fileName : "Main.hx", lineNumber : 26, className : "Main", methodName : "new"});
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = true;
@@ -9605,6 +9607,16 @@ malha_ComponentsManager.render = function(context,window,config) {
 var malha_Config = function() { };
 $hxClasses["malha.Config"] = malha_Config;
 malha_Config.__name__ = true;
+var malha_Game = function() { };
+$hxClasses["malha.Game"] = malha_Game;
+malha_Game.__name__ = true;
+malha_Game.init = function(_window,_config) {
+	malha_Game.window = _window;
+	malha_Game.config = _config;
+	malha_Game.screenWidth = malha_Game.window.width;
+	malha_Game.screenHeight = malha_Game.window.height;
+	if(malha_Config.usePixelUnit) malha_Game.unitSize = new hxmath_math_Vector2Default(1 / malha_Game.screenWidth,1 / malha_Game.screenHeight); else malha_Game.unitSize = malha_Config.unitSize;
+};
 var malha_GameObject = function() {
 	this._components = new haxe_ds_ObjectMap();
 	this._id = malha_GameObjectsManager.createGameObject(this);
@@ -9676,10 +9688,10 @@ malha_graphics_gl_Rectangle.create = function(gl,x,y,width,height) {
 	var positionLocation = gl.getAttribLocation(program,"a_position");
 	var buffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
-	width = width * malha_Config.unitSize;
-	height = height * malha_Config.unitSize;
-	x = x * malha_Config.unitSize;
-	y = y * malha_Config.unitSize;
+	width = width * malha_Game.unitSize.x;
+	height = height * malha_Game.unitSize.y;
+	x = x * malha_Game.unitSize.y;
+	y = y * malha_Game.unitSize.y;
 	haxe_Log.trace("Rectangle: ",{ fileName : "Rectangle.hx", lineNumber : 36, className : "malha.graphics.gl.Rectangle", methodName : "create", customParams : [x,y,width,height]});
 	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([x,y,x + width,y,x,y + height,x,y + height,x + width,y,x + width,y + height]),gl.STATIC_DRAW);
 	gl.enableVertexAttribArray(positionLocation);
@@ -10198,7 +10210,8 @@ lime_utils_ByteArray.lime_byte_array_overwrite_file = lime_system_System.load("l
 lime_utils_ByteArray.lime_byte_array_read_file = lime_system_System.load("lime","lime_byte_array_read_file",1);
 lime_utils_ByteArray.lime_lzma_decode = lime_system_System.load("lime","lime_lzma_decode",1);
 lime_utils_ByteArray.lime_lzma_encode = lime_system_System.load("lime","lime_lzma_encode",1);
-malha_Config.unitSize = 0.01;
+malha_Config.usePixelUnit = true;
+malha_Config.unitSize = new hxmath_math_Vector2Default(0.01,0.01);
 malha_utils_GUID.CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
 ApplicationMain.main();
 })(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports);

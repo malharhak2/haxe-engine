@@ -6,6 +6,7 @@ import lime.graphics.RenderContext;
 import malha.GameObject;
 import game.components.Renderer;
 import malha.ComponentsManager;
+import malha.Game;
 
 class Main extends Application {
 	
@@ -14,6 +15,9 @@ class Main extends Application {
 		
 		super ();
 
+		Game.window = window;
+		Game.config = config;
+		
 		var gameObject:GameObject = new GameObject();
 		gameObject.addComponent(Renderer);
 

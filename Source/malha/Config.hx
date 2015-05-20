@@ -1,5 +1,8 @@
 package malha;
 
+import hxmath.math.Vector2;
+
 class Config {
-	public static var unitSize: Float = 1 / 100;
+	public static var usePixelUnit: Bool = true;
+	public static var unitSize: Vector2 = new Vector2(1 / 100, 1 / 100);
 }

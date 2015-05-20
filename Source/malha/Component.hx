@@ -2,8 +2,18 @@ package malha;
 /**
 	Component class
 	Serves as the base class for all future component.
-	Components should inherit from this
+	Components are reusable elements of gameplay/logic that can be embedded in gameObjects
+
+	User-created Components should inherit from this class
 	The user code should not create a component by hand. They are created by the ComponentManager
+
+	To create a component, create a new class (usually in the components folder) -
+	ex: class Renderer extends Component {
+	
+	}
+
+	Then to add a component to an object:
+	gameObject.addComponent(Renderer);
 **/
 import lime.graphics.RenderContext;
 
