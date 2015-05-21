@@ -35,7 +35,7 @@ import lime.graphics.opengl.*;
  		var positionLocation = gl.getAttribLocation (program, "a_position");
  		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
- 		gl.enabledVertexAttribArray(positionLocation);
+ 		gl.enableVertexAttribArray(positionLocation);
  		gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
  		gl.drawArrays(gl.TRIANGLES, 0, vertexCount);

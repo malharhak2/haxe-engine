@@ -17,7 +17,7 @@ class Renderer extends Component {
 	public var width: Int = 10;
 	public var height: Int = 10;
 	public var pivot: Vector2;
-	private var mesh: Mesh;
+	private var mesh: Rectangle;
 
 	public function new (id) {
 		super(id);
@@ -38,13 +38,9 @@ class Renderer extends Component {
 
 			case OPENGL (gl):
 				if (mesh == null) {
-					mesh = new Rectangle(gl);
+					mesh = new Rectangle(gl, width, height);
 				}
-				mesh.x = position.x;
-				mesh.y = position.y;
-				mesh.width = width;
-				mesh.height = height;
-				mesh.render(gl);
+				mesh.render(gl, position.x, position.y);
 		default:
 		}
 	}

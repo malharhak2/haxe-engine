@@ -19,8 +19,6 @@ import lime.utils.Float32Array;
 
 class Rectangle extends Mesh {
 
-	public var x:Float 		= 0; 
-	public var y:Float 		= 0; 
 	public var width:Float 	= 0; 
 	public var height:Float = 0; 
 
@@ -28,40 +26,33 @@ class Rectangle extends Mesh {
 	private static var fragmentSource:String;
 	private static var rectangle_shader:GLProgram;
 
-	public override function new (gl:Dynamic) {
+	public override function new (gl:Dynamic, _width: Float, _height: Float) {
 		if (rectangle_shader == null) {
 			init();
 		}
+		width = _width * Game.unitSize.x;
+		height = _height * Game.unitSize.y;
+
 		var buffer = gl.createBuffer();
-		var bufferContent:Float32Array = createBuffer();
+		createBufferContent();
 		super(gl, rectangle_shader, buffer, bufferContent, gl.STATIC_DRAW, 6);
 	}
 
-	public function render (gl:Dynamic, _x: Float, _y: Float, _width: Float, _height: Float) {
-
-		x = _x;
-		y = _y;
-		width = _width;
-		height = _height;
-
-		width = width * Game.unitSize.x;
-		height = height * Game.unitSize.y;
-
-		x = x * Game.unitSize.y;
-		y = y * Game.unitSize.y;
-
-		bufferContent = createBuffer();
+	public function render (gl:Dynamic, _x: Float, _y: Float) {
 
 		draw(gl);
 	}
-	private function createBuffer (): Float32Array {
-		return new Float32Array([
-		        x, y, 
-		        x + width, y, 
-		        x,  y + height, 
-		        x,  y + height, 
-		        x + width, y, 
-		        x + width, y + height]);
+	private function createBufferContent (): Void {
+		var demiWidth:Float = width / 2;
+		var demiHeight: Float = height / 2;
+		var buffer:Float32Array = new Float32Array([
+		        -demiWidth, -demiHeight, 
+		        demiWidth, -demiHeight, 
+		        -demiWidth,  demiHeight, 
+		        -demiWidth,  demiHeight, 
+		        demiWidth, -demiHeight, 
+		        demiWidth, demiHeight]);
+		bufferContent = buffer;
 	}
 
 	private static function init () {
