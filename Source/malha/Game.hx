@@ -1,6 +1,7 @@
 package malha;
 
 import hxmath.math.Vector2;
+import malha.graphics.opengl.Graphics;
 
 /*
  * The game class holds runtime game variable that need to be accessible in various part of the app
@@ -31,10 +32,11 @@ class Game {
 	 * Called at the application start to initialize some dynamic variables
 	 * @param 	_config 	Not sure what this is yet, passed by Lime
 	 **/
-	public static function init(_config:Dynamic) {
+	public static function init(_config:Dynamic, context: Dynamic) {
 		trace("GAME INIT");
 		config = _config;
 		initialized = true;
+		Graphics.init (context);
 	}
 
 	public static function refreshUnitSize (width: Int, height: Int) {
@@ -47,6 +49,7 @@ class Game {
 		} else {
 			unitSize = Config.unitSize;
 		}
+		Graphics.setProjection(screenWidth, screenHeight);
 	}
 	
 }

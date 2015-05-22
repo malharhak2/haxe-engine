@@ -18,7 +18,7 @@ class Main extends Application {
 		
 		super ();
 		
-		for (i in 0 ... 100) {
+		for (i in 0 ... 2000) {
 			var gameObject:GameObject = new GameObject();
 			gameObject.transform.position = new Vector2(
 				Math.random() * 1000 - 500,
@@ -30,15 +30,13 @@ class Main extends Application {
 		}
 
 		ComponentsManager.update();
-		
-		trace ("Hello World");
-		
+				
 	}
 	
 	
 	public override function render (context:RenderContext):Void {
 		if (!Game.initialized) {
-			Game.init(config);
+			Game.init(config, context);
 			trace(config.width, config.height);
 		}
 		Game.refreshUnitSize(window.width, window.height);

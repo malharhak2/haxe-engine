@@ -1,7 +1,7 @@
 package game.components;
 
 import malha.Component;
-
+import malha.Game;
 import lime.graphics.RenderContext;
 import lime.graphics.opengl.*;
 import lime.graphics.Image;
@@ -9,7 +9,7 @@ import lime.math.Matrix4;
 import lime.utils.Float32Array;
 import lime.utils.GLUtils;
 import lime.Assets;
-import malha.graphics.gl.*;
+import malha.graphics.opengl.*;
 import hxmath.math.Vector2;
 
 class Renderer extends Component {
@@ -30,7 +30,9 @@ class Renderer extends Component {
 		super.render(context, window, config);
 		var position:Vector2 = gameObject.transform.computedPosition;
 		position = position - new Vector2(pivot.x * width, pivot.y * height);
-
+		position.x = position.x * Game.unitSize.x;
+		position.y = position.y * Game.unitSize.y;
+		
 		switch (context) {
 			case CANVAS (context):
 				context.fillStyle = "blue";
@@ -40,6 +42,8 @@ class Renderer extends Component {
 				if (mesh == null) {
 					mesh = new Rectangle(gl, width, height);
 				}
+				mesh.mvMatrix.identity();
+				mesh.mvMatrix.appendTranslation(position.x, position.y, 0);
 				mesh.render(gl, position.x, position.y);
 		default:
 		}
