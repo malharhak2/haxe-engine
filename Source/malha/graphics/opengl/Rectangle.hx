@@ -14,7 +14,7 @@ package malha.graphics.opengl;
 import lime.graphics.opengl.*;
 import lime.graphics.GLRenderContext;
 import lime.utils.GLUtils;
-import hxmath.math.Vector2;
+import lime.math.Vector2;
 import lime.math.Vector4;
 import lime.utils.Float32Array;
 
@@ -38,10 +38,10 @@ class Rectangle extends Mesh {
 		height = _height * Game.unitSize.y;
 		color = _color;
 		
-		var vertex_buffer_content: Float32Array = createVertexPositions()
-		var vertex_color_content: Float32Array = createColorValues();
+		var vertex_buffer_content: Float32Array = createVertexPositions();
+		var color_buffer_content: Float32Array = createColorValues();
 
-		super(gl, rectangle_shader, buffer, vertex_buffer_content, color_buffer_content, gl.STATIC_DRAW, 6);
+		super(gl, rectangle_shader, vertex_buffer_content, color_buffer_content, gl.STATIC_DRAW, 6);
 	}
 
 	public function render (gl:GLRenderContext, _x: Float, _y: Float) {
@@ -54,11 +54,11 @@ class Rectangle extends Mesh {
 		var demiWidth:Float = width / 2;
 		var demiHeight: Float = height / 2;
 		var buffer:Float32Array = new Float32Array([
-		        -demiWidth, -demiHeight, 0
-		        demiWidth, -demiHeight, 0
-		        -demiWidth,  demiHeight, 0
-		        -demiWidth,  demiHeight, 0
-		        demiWidth, -demiHeight, 0
+		        -demiWidth, -demiHeight, 0,
+		        demiWidth, -demiHeight, 0,
+		        -demiWidth,  demiHeight, 0,
+		        -demiWidth,  demiHeight, 0,
+		        demiWidth, -demiHeight, 0,
 		        demiWidth, demiHeight, 0
 		 ]);
 		return buffer;
@@ -67,12 +67,12 @@ class Rectangle extends Mesh {
 		var demiWidth:Float = width / 2;
 		var demiHeight: Float = height / 2;
 		var buffer:Float32Array = new Float32Array([
-		        1, 1, 1, 0,
-		        1, 1, 1, 0,
-		        1, 1, 1, 0,
-		        1, 1, 1, 0,
-		        1, 1, 1, 0,
-		        1, 1, 1, 0
+		        color.x, color.y, color.z, color.w,
+		        color.x, color.y, color.z, color.w,
+		        color.x, color.y, color.z, color.w,
+		        color.x, color.y, color.z, color.w,
+		        color.x, color.y, color.z, color.w,
+		        color.x, color.y, color.z, color.w
 		 ]);
 		return buffer;
 	}
@@ -80,21 +80,21 @@ class Rectangle extends Mesh {
 	private static function init () {
 		vertexSource =
 			"attribute vec3 a_position;
-			attribute vec4 a_color
+			attribute vec4 a_color;
 			uniform mat4 uMVMatrix;
 			uniform mat4 uPMatrix;
 
+			varying vec4 v_color;
+			
 			void main() {
 			  gl_Position = uMVMatrix * vec4(a_position, 1);
 			  v_color = a_color;
 			}";
 		fragmentSource = 
-			"precision mediump float;
-
-			varying vec4 v_color;
+			"varying vec4 v_color;
 
 			void main() {
-			  gl_FragColor = v_color;  // green
+			  gl_FragColor = v_color;
 			}";
 
 		rectangle_shader = GLUtils.createProgram(vertexSource, fragmentSource);

@@ -18,7 +18,7 @@ class Main extends Application {
 		
 		super ();
 		
-		for (i in 0 ... 2000) {
+		for (i in 0 ... 1000) {
 			var gameObject:GameObject = new GameObject();
 			gameObject.transform.position = new Vector2(
 				Math.random() * 1000 - 500,

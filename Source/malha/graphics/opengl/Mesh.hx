@@ -15,10 +15,10 @@ class Mesh {
 
  	private var vertex_buffer: GLBuffer;
  	private var vertex_count: Int;
- 	private var vertex_position_attribute: GLUniformLocation;
+ 	private var vertex_position_attribute: Int;
 
  	private var color_buffer: GLBuffer;
- 	private var vertex_color_attribute: GLUniformLocation;
+ 	private var vertex_color_attribute: Int;
 
  	private var projectionMatrixUniform:GLUniformLocation;
  	private var modelMatrixUniform:GLUniformLocation;
@@ -42,7 +42,7 @@ class Mesh {
  			color_buffer_content,
  			drawMode);
 
- 		this.vertexCount = vertexCount;
+ 		vertex_count = vertexCount;
 
 		vertex_position_attribute = gl.getAttribLocation (program, "a_position");
 		vertex_color_attribute = gl.getAttribLocation(program, "a_color");
@@ -52,6 +52,8 @@ class Mesh {
 
  		gl.enableVertexAttribArray(vertex_position_attribute);
  		gl.enableVertexAttribArray(vertex_color_attribute);
+
+ 		meshInstances = new Array<MeshInstance>();
 
  	}
  	public function instantiate () {
@@ -74,7 +76,7 @@ class Mesh {
 
  		for (i in 0 ... meshInstances.length) {
  			meshInstances[i].loadMatrix(gl, projectionMatrixUniform, modelMatrixUniform);
-	 		gl.drawArrays(gl.TRIANGLES, 0, vertexCount);
+	 		gl.drawArrays(gl.TRIANGLES, 0, vertex_count);
  		}
  	}
  }
