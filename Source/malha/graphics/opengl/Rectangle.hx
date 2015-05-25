@@ -24,7 +24,8 @@ class Rectangle extends Mesh {
 	public var height:Float = 0; 
 
 	public var color:Vector4;
-	private var colorAttribute: GLUniformLocation;
+	private var color_buffer: GLBuffer;
+	private var vertex_color_attribute: Int;
 
 	private static var vertexSource:String;
 	private static var fragmentSource:String;
@@ -41,12 +42,26 @@ class Rectangle extends Mesh {
 		var vertex_buffer_content: Float32Array = createVertexPositions();
 		var color_buffer_content: Float32Array = createColorValues();
 
-		super(gl, rectangle_shader, vertex_buffer_content, color_buffer_content, gl.STATIC_DRAW, 6);
+		color_buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			color_buffer_content,
+			gl.STATIC_DRAW);
+
+		super(gl, rectangle_shader, vertex_buffer_content, gl.STATIC_DRAW, 6);
+
+		vertex_color_attribute = gl.getAttribLocation(program, "a_color");
+		gl.enableVertexAttribArray(vertex_color_attribute);
+
 	}
 
 	public function render (gl:GLRenderContext, _x: Float, _y: Float) {
 
 		pre_draw(gl);
+
+		gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+		gl.vertexAttribPointer(vertex_color_attribute, 4, gl.FLOAT, false, 0, 0);
 
 		post_draw(gl);
 	}
@@ -91,6 +106,9 @@ class Rectangle extends Mesh {
 			  v_color = a_color;
 			}";
 		fragmentSource = 
+			#if !desktop
+			"precision mediump float;" +
+			#end
 			"varying vec4 v_color;
 
 			void main() {
